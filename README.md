@@ -18,8 +18,6 @@ I suggest to read following zephyr issues:
   remotes:
     - name: zephyrproject-rtos
       url-base: https://github.com/zephyrproject-rtos
-    - name: cesanta
-      url-base: https://github.com/cesanta
     - name: sparse
       url-base: https://github.com/Sparse-Technology/mongoose-module
 
