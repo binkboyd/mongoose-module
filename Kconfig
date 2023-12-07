@@ -8,11 +8,9 @@ if MONGOOSE
 config MONGOOSE_VERBOSE
 	bool "Make zcbor code print messages"
 
-# # config ACPI_DSDT_SUPPORT
-# # 	bool  "Build source code for DSDT ACPICA support"
-# # 	default y if PCIE
-# # 	help
-# # 	  Build source code for DSDT support
+config MONGOOSE_ENABLE_PACKED_FS
+	bool "enabled packed filesystem"
+	default y
 
 endif #MONGOOSE
 
