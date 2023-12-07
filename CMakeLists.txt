@@ -1,21 +1,23 @@
-# Copyright (c) 2023 Intel Corporation
+# Copyright (c) 2023 Sparse Technology, Mustafa Abdullah Kus
 # SPDX-License-Identifier: Apache-2.0
 
 if(CONFIG_MONGOOSE)
-    set(MONGOOSE_DIR ${ZEPHYR_BASE}/../modules/lib/mongoose)
-    set(INC_DIR ${ACPI_DIR}/source/include/)
-    set(SRC_DIR ${ACPI_DIR}/source)
-    set(COMP_DIR ${ACPI_DIR}/source/components)
-    set(PARENT_SRC_DIR ${ACPI_DIR}../../zephyr)
-    set(ACPI_PARENT_DIR ${ACPI_DIR}/../)
+    # Enable packed filesystem
+    if(CONFIG_MONGOOSE_ENABLE_PACKED_FS)
+        add_definitions(-DMG_ENABLE_PACKED_FS=1)
+    endif()
 
-    message(STATUS "CURRENT MODULE DIR ------------> ${ZEPHYR_CURRENT_MODULE_DIR}")
-    message(STATUS "MONGOOSE MODULE DIR ------------> ${ZEPHYR_MODULE_DIR}")
-    message(STATUS "MONGOOSE DIR ------------------> ${MONGOOSE_DIR}")
-    message(STATUS "ZEPHYR BASE --------------> ${ZEPHYR_BASE}")
+    # assign device type for flash section
+    if(CONFIG_SOC_SERIES_STM32H7X)
+        add_definitions(-DMG_DEVICE=2)
+    elseif(CONFIG_SOC_SERIES_STM32H5X)
+        add_definitions(-DMG_DEVICE=1)
+    else()
+        add_definitions(-DMG_DEVICE=0)
+    endif()
 
-    add_definitions(-DMG_ENABLE_PACKED_FS=1)
-    add_definitions(-DMG_DEVICE=2)
+    # we'r set as zephyr from mongoose source
+    # #define MG_ARCH_ZEPHYR 7
     add_definitions(-DMG_ARCH=7)
 
     add_library(MONGOOSE INTERFACE)
@@ -23,7 +25,7 @@ if(CONFIG_MONGOOSE)
     add_compile_definitions(__ZEPHYR__)
 
     zephyr_include_directories(
-        mongoose
+        ${ZEPHYR_CURRENT_MODULE_DIR}/mongoose
     )
 
     # target_include_directories(MONGOOSE INTERFACE
@@ -35,7 +37,7 @@ if(CONFIG_MONGOOSE)
     zephyr_library()
 
     zephyr_library_sources(
-        mongoose/mongoose.c
+        ${ZEPHYR_CURRENT_MODULE_DIR}/mongoose/mongoose.c
     )
 
     zephyr_library_link_libraries(MONGOOSE)
