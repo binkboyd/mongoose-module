@@ -1,0 +1,4 @@
+name: mongoose
+build:
+  cmake: .
+  kconfig: .
