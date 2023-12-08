@@ -41,4 +41,6 @@ if(CONFIG_MONGOOSE)
     )
 
     zephyr_library_link_libraries(MONGOOSE)
+
+    zephyr_library_compile_options(-std=gnu99)
 endif()
